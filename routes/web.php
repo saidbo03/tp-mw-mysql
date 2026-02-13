@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn() => view('home'))->name('home');
@@ -14,3 +15,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard', fn() => view('dashboard'))->middleware('auth')->name('dashboard');
 
 Route::get('/admin', fn() => view('admin'))->middleware(['auth', 'role:admin'])->name('admin');
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::resource('/articles', ArticleController::class);
+});
+
